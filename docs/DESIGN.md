@@ -112,7 +112,7 @@ plugins/<name>/
 | #   | Plugin              | Agents | Commands | Skills | Hooks | MCP            |
 | --- | ------------------- | ------ | -------- | ------ | ----- | -------------- |
 | 1   | ccfg-core           | 18     | 5        | 3      | 4     | github-mcp     |
-| 2   | ccfg-python         | 5      | 1        | 1      | -     | -              |
+| 2   | ccfg-python         | 7      | 3        | 3      | -     | -              |
 | 3   | ccfg-golang         | 1      | 1        | 1      | -     | -              |
 | 4   | ccfg-typescript     | 5      | 1        | 1      | -     | playwright-mcp |
 | 5   | ccfg-java           | 3      | 1        | 1      | -     | -              |
