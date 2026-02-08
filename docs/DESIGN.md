@@ -113,9 +113,9 @@ plugins/<name>/
 | --- | ------------------- | ------ | -------- | ------ | ----- | -------------- |
 | 1   | ccfg-core           | 18     | 5        | 3      | 4     | github-mcp     |
 | 2   | ccfg-python         | 7      | 3        | 3      | -     | -              |
-| 3   | ccfg-golang         | 1      | 1        | 1      | -     | -              |
-| 4   | ccfg-typescript     | 5      | 1        | 1      | -     | playwright-mcp |
-| 5   | ccfg-java           | 3      | 1        | 1      | -     | -              |
+| 3   | ccfg-golang         | 5      | 3        | 3      | -     | -              |
+| 4   | ccfg-typescript     | 9      | 3        | 3      | -     | playwright-mcp |
+| 5   | ccfg-java           | 5      | 3        | 3      | -     | -              |
 | 6   | ccfg-rust           | 1      | 1        | 1      | -     | -              |
 | 7   | ccfg-csharp         | 2      | 1        | 1      | -     | -              |
 | 8   | ccfg-shell          | 1      | 1        | 1      | -     | -              |

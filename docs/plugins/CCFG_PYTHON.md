@@ -82,20 +82,34 @@ and allowed-tools.
 
 **Allowed tools**: `Bash(uv *), Bash(git *), Read, Grep, Glob`
 
+**Argument**: `[--quick]`
+
 **Behavior**:
 
-1. **Tests**: `uv run pytest tests/ -v`
-2. **Lint check**: `uv run ruff check .`
-3. **Format check**: `uv run ruff format --check .`
-4. **Type check**: `uv run mypy src/` (if mypy is configured in pyproject.toml)
+Full mode (default):
+
+1. **Lint check**: `uv run ruff check .`
+2. **Format check**: `uv run ruff format --check .`
+3. **Type check**: `uv run mypy src/` (if mypy is configured in pyproject.toml, skip with notice if
+   not)
+4. **Tests**: `uv run pytest tests/ -v`
 5. Report pass/fail for each gate with output
 6. If any gate fails, show the failures and stop
+
+Quick mode (`--quick`):
+
+1. **Lint check**: `uv run ruff check .`
+2. **Format check**: `uv run ruff format --check .`
+3. **Type check**: `uv run mypy src/` (if configured)
+4. Report pass/fail — skips test suite for speed
 
 **Key rules**:
 
 - Always uses `uv run`, never bare `pytest`, `ruff`, or `mypy`
 - Never suggests `noqa` or lint suppressions as fixes — fix the root cause
 - Reports all gate results, not just the first failure
+- Detect-and-skip: if a tool is not configured (e.g., no mypy config in pyproject.toml), skip that
+  gate and report it as SKIPPED. Never fail because an optional tool is missing
 
 ### /ccfg-python:scaffold
 
@@ -152,7 +166,7 @@ and allowed-tools.
 
 **Allowed tools**: `Bash(uv *), Bash(git *), Read, Write, Edit, Grep, Glob`
 
-**Argument**: `[--threshold=90] [--file=<path>]`
+**Argument**: `[--threshold=90] [--file=<path>] [--dry-run] [--no-commit]`
 
 **Behavior**:
 
@@ -164,6 +178,12 @@ and allowed-tools.
    test files f. Commit: `git add <test-file> && git commit -m "test: add coverage for <module>"`
 4. **Report**: Summary table of before/after coverage per file
 5. Stop when threshold reached or all files processed
+
+**Modes**:
+
+- **Default**: Write tests and auto-commit after each file
+- `--dry-run`: Report coverage gaps and describe what tests would be generated. No code changes
+- `--no-commit`: Write tests but do not commit. User reviews before committing manually
 
 **Key rules**:
 
@@ -182,6 +202,10 @@ activates them when relevant.
 
 **Trigger description**: "This skill should be used when working on Python projects, writing Python
 code, running Python tests, managing Python dependencies, or reviewing Python code."
+
+**Existing repo compatibility**: For existing projects, respect the established toolchain. If the
+project uses pip/poetry instead of uv, use what's configured. If the project uses black instead of
+ruff format, follow it. These preferences apply to new projects and scaffold output only.
 
 **Tooling rules**:
 
