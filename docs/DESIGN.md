@@ -124,9 +124,9 @@ plugins/<name>/
 | 11  | ccfg-mongodb        | 3      | 2        | 3      | -     | -              |
 | 12  | ccfg-redis          | 2      | 2        | 2      | -     | -              |
 | 13  | ccfg-sqlite         | 2      | 2        | 2      | -     | sqlite-mcp     |
-| 14  | ccfg-docker         | TBD    | TBD      | 1      | -     | -              |
-| 15  | ccfg-github-actions | TBD    | TBD      | 1      | -     | -              |
-| 16  | ccfg-kubernetes     | TBD    | TBD      | 1      | -     | -              |
+| 14  | ccfg-docker         | 3      | 2        | 3      | -     | -              |
+| 15  | ccfg-github-actions | 3      | 2        | 3      | -     | -              |
+| 16  | ccfg-kubernetes     | 3      | 2        | 3      | -     | -              |
 | 17  | ccfg-markdown       | TBD    | TBD      | 1      | -     | -              |
 
 ---
