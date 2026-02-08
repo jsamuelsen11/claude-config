@@ -127,7 +127,7 @@ plugins/<name>/
 | 14  | ccfg-docker         | 3      | 2        | 3      | -     | -              |
 | 15  | ccfg-github-actions | 3      | 2        | 3      | -     | -              |
 | 16  | ccfg-kubernetes     | 3      | 2        | 3      | -     | -              |
-| 17  | ccfg-markdown       | TBD    | TBD      | 1      | -     | -              |
+| 17  | ccfg-markdown       | 2      | 3        | 3      | -     | -              |
 
 ---
 
