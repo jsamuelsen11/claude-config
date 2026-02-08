@@ -27,7 +27,8 @@ plugins/ccfg-core/
 │   ├── prompt-engineer.md
 │   ├── error-detective.md
 │   ├── project-planner.md
-│   └── cloud-architect.md
+│   ├── cloud-architect.md
+│   └── requirements-analyst.md
 ├── commands/
 │   ├── epic-execute.md
 │   ├── pr-review.md
@@ -106,31 +107,32 @@ plugins/ccfg-core/
 }
 ```
 
-## Agents (18)
+## Agents (19)
 
 Each agent is an `.md` file in `agents/` with YAML frontmatter defining name, description, available
 tools, and model preference, followed by a system prompt.
 
-| Agent                    | Role                                                                      | Model  |
-| ------------------------ | ------------------------------------------------------------------------- | ------ |
-| `code-reviewer`          | Code quality, security vulnerabilities, best practices across languages   | sonnet |
-| `debugger`               | Issue diagnosis, root cause analysis, systematic problem-solving          | sonnet |
-| `refactoring-specialist` | Safe code transformations, design pattern application                     | sonnet |
-| `fullstack-developer`    | End-to-end feature delivery from database to UI                           | sonnet |
-| `backend-developer`      | APIs, services, server-side logic, data modeling                          | sonnet |
-| `frontend-developer`     | UI components, web standards, accessibility, responsive design            | sonnet |
-| `api-designer`           | REST/GraphQL API architecture, schema design, versioning                  | sonnet |
-| `architect-reviewer`     | System design validation, scalability analysis, tech stack evaluation     | sonnet |
-| `test-automator`         | Test frameworks, CI/CD integration, coverage strategies                   | sonnet |
-| `build-engineer`         | Build systems, compilation, caching, dependency management                | sonnet |
-| `git-workflow-manager`   | Branching strategies, merge conflict resolution, repo management          | sonnet |
-| `technical-writer`       | Documentation, API docs, user guides, clear technical writing             | sonnet |
-| `performance-engineer`   | Profiling, bottleneck identification, optimization strategies             | sonnet |
-| `qa-expert`              | Test strategy, quality processes, manual and automated testing            | sonnet |
-| `prompt-engineer`        | LLM prompt design, evaluation frameworks, prompt optimization             | sonnet |
-| `error-detective`        | Error pattern analysis, distributed debugging, anomaly detection          | sonnet |
-| `project-planner`        | Epic decomposition, task sequencing, dependency mapping, scope estimation | sonnet |
-| `cloud-architect`        | AWS/Azure/GCP architecture, multi-cloud patterns, cost optimization, IAM  | sonnet |
+| Agent                    | Role                                                                                        | Model  |
+| ------------------------ | ------------------------------------------------------------------------------------------- | ------ |
+| `code-reviewer`          | Code quality, security vulnerabilities, best practices across languages                     | sonnet |
+| `debugger`               | Issue diagnosis, root cause analysis, systematic problem-solving                            | sonnet |
+| `refactoring-specialist` | Safe code transformations, design pattern application                                       | sonnet |
+| `fullstack-developer`    | End-to-end feature delivery from database to UI                                             | sonnet |
+| `backend-developer`      | APIs, services, server-side logic, data modeling                                            | sonnet |
+| `frontend-developer`     | UI components, web standards, accessibility, responsive design                              | sonnet |
+| `api-designer`           | REST/GraphQL API architecture, schema design, versioning                                    | sonnet |
+| `architect-reviewer`     | System design validation, scalability analysis, tech stack evaluation                       | sonnet |
+| `test-automator`         | Test frameworks, CI/CD integration, coverage strategies                                     | sonnet |
+| `build-engineer`         | Build systems, compilation, caching, dependency management                                  | sonnet |
+| `git-workflow-manager`   | Branching strategies, merge conflict resolution, repo management                            | sonnet |
+| `technical-writer`       | Documentation, API docs, user guides, clear technical writing                               | sonnet |
+| `performance-engineer`   | Profiling, bottleneck identification, optimization strategies                               | sonnet |
+| `qa-expert`              | Test strategy, quality processes, manual and automated testing                              | sonnet |
+| `prompt-engineer`        | LLM prompt design, evaluation frameworks, prompt optimization                               | sonnet |
+| `error-detective`        | Error pattern analysis, distributed debugging, anomaly detection                            | sonnet |
+| `project-planner`        | Epic decomposition, task sequencing, dependency mapping, scope estimation                   | sonnet |
+| `cloud-architect`        | AWS/Azure/GCP architecture, multi-cloud patterns, cost optimization, IAM                    | sonnet |
+| `requirements-analyst`   | Requirements elicitation, user stories, acceptance criteria, scope definition, traceability | sonnet |
 
 ## Commands (5)
 
