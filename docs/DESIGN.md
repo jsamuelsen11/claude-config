@@ -119,11 +119,11 @@ plugins/<name>/
 | 6   | ccfg-rust           | 4      | 3        | 3      | -     | -              |
 | 7   | ccfg-csharp         | 5      | 3        | 3      | -     | -              |
 | 8   | ccfg-shell          | 2      | 2        | 2      | -     | -              |
-| 9   | ccfg-mysql          | TBD    | TBD      | 1      | -     | -              |
-| 10  | ccfg-postgresql     | TBD    | TBD      | 1      | -     | -              |
-| 11  | ccfg-mongodb        | TBD    | TBD      | 1      | -     | -              |
-| 12  | ccfg-redis          | TBD    | TBD      | 1      | -     | -              |
-| 13  | ccfg-sqlite         | TBD    | TBD      | 1      | -     | sqlite-mcp     |
+| 9   | ccfg-mysql          | 3      | 2        | 3      | -     | -              |
+| 10  | ccfg-postgresql     | 4      | 2        | 3      | -     | -              |
+| 11  | ccfg-mongodb        | 3      | 2        | 3      | -     | -              |
+| 12  | ccfg-redis          | 2      | 2        | 2      | -     | -              |
+| 13  | ccfg-sqlite         | 2      | 2        | 2      | -     | sqlite-mcp     |
 | 14  | ccfg-docker         | TBD    | TBD      | 1      | -     | -              |
 | 15  | ccfg-github-actions | TBD    | TBD      | 1      | -     | -              |
 | 16  | ccfg-kubernetes     | TBD    | TBD      | 1      | -     | -              |
