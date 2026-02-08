@@ -116,9 +116,9 @@ plugins/<name>/
 | 3   | ccfg-golang         | 5      | 3        | 3      | -     | -              |
 | 4   | ccfg-typescript     | 9      | 3        | 3      | -     | playwright-mcp |
 | 5   | ccfg-java           | 5      | 3        | 3      | -     | -              |
-| 6   | ccfg-rust           | 1      | 1        | 1      | -     | -              |
-| 7   | ccfg-csharp         | 2      | 1        | 1      | -     | -              |
-| 8   | ccfg-shell          | 1      | 1        | 1      | -     | -              |
+| 6   | ccfg-rust           | 4      | 3        | 3      | -     | -              |
+| 7   | ccfg-csharp         | 5      | 3        | 3      | -     | -              |
+| 8   | ccfg-shell          | 2      | 2        | 2      | -     | -              |
 | 9   | ccfg-mysql          | TBD    | TBD      | 1      | -     | -              |
 | 10  | ccfg-postgresql     | TBD    | TBD      | 1      | -     | -              |
 | 11  | ccfg-mongodb        | TBD    | TBD      | 1      | -     | -              |
