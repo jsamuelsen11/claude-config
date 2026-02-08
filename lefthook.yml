@@ -1,0 +1,52 @@
+pre-commit:
+  parallel: true
+  commands:
+    prettier:
+      glob: '*.{json,yaml,yml,md}'
+      run: >
+        npx --yes --quiet prettier
+        --list-different --write
+        --config .lefthook/prettier.config.js
+        {staged_files}
+      stage_fixed: true
+
+    jsonlint:
+      glob: '*.json'
+      run: npx --yes --quiet jsonlint --quiet {staged_files}
+
+    yamllint:
+      glob: '*.{yaml,yml}'
+      run: >
+        uvx yamllint
+        --config-file .lefthook/.yamllint.yaml
+        {staged_files}
+
+    markdownlint:
+      glob: '*.md'
+      run: >
+        npx --yes --quiet markdownlint-cli
+        --config .lefthook/.markdownlint.json
+        --ignore-path .lefthook/.markdownlintignore
+        {staged_files}
+
+    shellcheck:
+      glob: '*.sh'
+      run: uvx shellcheck-py {staged_files}
+
+    shfmt:
+      glob: '*.sh'
+      run: uvx shfmt-py --diff {staged_files}
+
+    typos:
+      run: uvx typos --config .lefthook/_typos.toml
+
+commit-msg:
+  commands:
+    commitlint:
+      run: >
+        npx --yes
+        -p @commitlint/cli
+        -p @commitlint/config-conventional
+        commitlint
+        --config .lefthook/commitlint.config.js
+        --edit {1}

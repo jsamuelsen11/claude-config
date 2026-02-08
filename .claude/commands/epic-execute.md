@@ -1,14 +1,17 @@
 ---
-description: Execute a beads epic task with branch, planning conversation, implementation, validation, and PR
+description:
+  Execute a beads epic task with branch, planning conversation, implementation, validation, and PR
 argument-hint: <task-id> (e.g. claude-config-9re.1)
-allowed-tools: Bash(git *), Bash(bd *), Bash(uv *), Bash(gh pr create *), Bash(gh pr view *), Read, Grep, Glob, Edit, Write, Task
+allowed-tools:
+  Bash(git *), Bash(bd *), Bash(uv *), Bash(gh pr create *), Bash(gh pr view *), Read, Grep, Glob,
+  Edit, Write, Task
 ---
 
 # Epic Task Execution
 
-You are executing a beads task in an independent session. Follow every phase in order.
-Do not skip phases. Do not combine phases. Confirm with the user before moving between
-major phases (Planning -> Implementation -> Validation -> PR).
+You are executing a beads task in an independent session. Follow every phase in order. Do not skip
+phases. Do not combine phases. Confirm with the user before moving between major phases (Planning ->
+Implementation -> Validation -> PR).
 
 **Target task**: $ARGUMENTS
 
@@ -62,10 +65,11 @@ If the repo is dirty or not on `main`, **STOP** and ask the user how to proceed.
 
 ## Phase 2: Planning Conversation
 
-**Goal**: Lock in every implementation detail before writing code. This is the most
-important phase. Do not rush it.
+**Goal**: Lock in every implementation detail before writing code. This is the most important phase.
+Do not rush it.
 
 **Actions**:
+
 1. Present the task scope to the user in your own words. Include:
    - What this task produces (files, functions, tests)
    - What it does NOT touch (explicit boundaries)
@@ -79,9 +83,8 @@ important phase. Do not rush it.
    - Test coverage expectations
    - Integration points with other tasks
 
-3. **Wait for user answers before proceeding.** Do not guess. Do not assume.
-   If the user says "whatever you think is best", state your recommendation
-   and get explicit confirmation.
+3. **Wait for user answers before proceeding.** Do not guess. Do not assume. If the user says
+   "whatever you think is best", state your recommendation and get explicit confirmation.
 
 4. Once all questions are resolved, present a concrete implementation checklist:
    - Files to create/modify (with paths)
@@ -98,6 +101,7 @@ important phase. Do not rush it.
 **Goal**: Build exactly what was agreed in Phase 2.
 
 **Rules**:
+
 - Follow docs/DESIGN.md decisions strictly
 - Follow project conventions (see AGENTS.md and any CLAUDE.md)
 - One logical change at a time, committed incrementally
@@ -107,6 +111,7 @@ important phase. Do not rush it.
 - Handle errors explicitly
 
 **Actions**:
+
 1. Implement the agreed checklist item by item
 2. After each logical unit, run relevant checks:
    ```bash
@@ -128,25 +133,32 @@ important phase. Do not rush it.
 Run every applicable check. Do NOT skip any.
 
 ### 4a. Tests
+
 ```bash
 uv run pytest tests/ -v          # full test suite
 ```
+
 If tests fail, fix them before proceeding. Never disable or skip tests.
 
 ### 4b. Lint & Format
+
 ```bash
 uv run ruff check .              # if ruff is configured
 uv run ruff format --check .     # format check
 ```
+
 If lint fails, fix the code. Never add lint suppressions.
 
 ### 4c. Type Check (if applicable)
+
 ```bash
 uv run mypy src/                 # if mypy is configured
 ```
 
 ### 4d. Verify Task Completeness
+
 Review the Phase 2 checklist item by item:
+
 - [ ] Every file listed was created/modified
 - [ ] Every function/class listed was implemented
 - [ ] Every test listed passes
@@ -154,6 +166,7 @@ Review the Phase 2 checklist item by item:
 - [ ] No debug code, TODOs, or print statements left behind
 
 ### 4e. Final Status
+
 ```bash
 git status
 git log --oneline main..HEAD     # all commits on this branch
@@ -168,11 +181,13 @@ Present the validation results to the user. If anything is incomplete, fix it.
 **Goal**: Ship the work back to main.
 
 1. Push the branch:
+
    ```bash
    git push -u origin HEAD
    ```
 
 2. Create a pull request:
+
    ```bash
    gh pr create --title "<task-id>: <short description>" --body "$(cat <<'EOF'
    ## Summary
@@ -196,11 +211,13 @@ Present the validation results to the user. If anything is incomplete, fix it.
    ```
 
 3. Close the beads task:
+
    ```bash
    bd close <task-id> --reason="PR created: <pr-url>"
    ```
 
 4. Sync beads:
+
    ```bash
    bd sync
    ```
@@ -211,8 +228,8 @@ Present the validation results to the user. If anything is incomplete, fix it.
 
 ## Abort Protocol
 
-If at any point you cannot proceed (blocked task, failing tests you can't fix,
-unclear requirements the user can't clarify):
+If at any point you cannot proceed (blocked task, failing tests you can't fix, unclear requirements
+the user can't clarify):
 
 1. Commit any work in progress:
    ```bash

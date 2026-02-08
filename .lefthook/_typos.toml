@@ -1,0 +1,8 @@
+[default]
+extend-ignore-re = [
+  "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+]
+
+[default.extend-words]
+# Add project-specific words here
+# Example: mytool = "mytool"
