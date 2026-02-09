@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-python",
+  "description": "Python language plugin: framework and specialist agents, project scaffolding, coverage automation, and conventions for consistent development with uv, ruff, pytest, and mypy",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["python", "uv", "pytest", "ruff", "mypy", "fastapi", "django", "flask"]
+}
