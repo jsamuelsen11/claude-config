@@ -1,0 +1,57 @@
+{
+  "name": "ccfg-core",
+  "description": "Foundation plugin: workflow rules, core agents, commands, security hooks, and GitHub MCP for consistent Claude Code behavior across all projects",
+  "version": "0.1.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["workflow", "agents", "security", "mcp", "configuration"],
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/secret-scan.sh $CLAUDE_TOOL_OUTPUT_FILE"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/dangerous-command-check.sh $CLAUDE_TOOL_INPUT_FILE"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bd prime"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bd prime"
+          }
+        ]
+      }
+    ]
+  }
+}
