@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-golang",
+  "description": "Go language plugin: framework and specialist agents, project scaffolding, coverage automation, and conventions for consistent development with golangci-lint, gofumpt, and go modules",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["go", "golang", "gin", "grpc", "golangci-lint", "gofumpt"]
+}
