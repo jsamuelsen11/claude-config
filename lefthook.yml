@@ -31,11 +31,11 @@ pre-commit:
 
     shellcheck:
       glob: '*.sh'
-      run: uvx shellcheck-py {staged_files}
+      run: uvx --from shellcheck-py shellcheck {staged_files}
 
     shfmt:
       glob: '*.sh'
-      run: uvx shfmt-py --diff {staged_files}
+      run: uvx --from shfmt-py shfmt -l -w {staged_files}
 
     typos:
       run: uvx typos --config .lefthook/_typos.toml
