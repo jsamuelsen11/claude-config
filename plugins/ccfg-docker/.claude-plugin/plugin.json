@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-docker",
+  "description": "Docker infrastructure plugin: Dockerfile optimization, Compose architecture, container security agents, config validation, and conventions for consistent Docker development",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["docker", "dockerfile", "compose", "container", "image", "multi-stage", "buildkit"]
+}
