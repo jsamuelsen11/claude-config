@@ -1,0 +1,21 @@
+{
+  "name": "ccfg-typescript",
+  "description": "TypeScript language plugin: frontend and backend agents, project scaffolding, coverage automation, Playwright MCP, and conventions for consistent development with ESLint, Vitest, and strict tsconfig",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": [
+    "typescript",
+    "react",
+    "nextjs",
+    "angular",
+    "vue",
+    "svelte",
+    "node",
+    "vitest",
+    "playwright"
+  ]
+}
