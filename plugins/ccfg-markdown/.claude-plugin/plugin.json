@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-markdown",
+  "description": "Markdown tooling plugin: syntax and documentation architecture agents, markdown validation, documentation scaffolding, and conventions for consistent documentation",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["markdown", "documentation", "readme", "adr", "changelog", "technical-writing"]
+}
