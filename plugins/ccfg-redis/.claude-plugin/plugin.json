@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-redis",
+  "description": "Redis data plugin: data structure and pattern agents, key naming validation, connection scaffolding, and conventions for consistent Redis development",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["redis", "cache", "pub-sub", "streams", "data-structures", "distributed-lock"]
+}

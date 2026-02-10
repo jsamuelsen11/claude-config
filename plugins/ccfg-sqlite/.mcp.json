@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sqlite-mcp": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-sqlite"]
+    }
+  }
+}

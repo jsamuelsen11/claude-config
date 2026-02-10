@@ -1,0 +1,9 @@
+{
+  "name": "ccfg-mongodb",
+  "description": "MongoDB data plugin: document modeling, aggregation, and sharding agents, schema validation, collection scaffolding, and conventions for consistent MongoDB development",
+  "version": "1.0.0",
+  "author": { "name": "jsamuelsen" },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["mongodb", "nosql", "document", "aggregation", "sharding", "atlas"]
+}

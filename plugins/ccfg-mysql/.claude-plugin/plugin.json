@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-mysql",
+  "description": "MySQL data plugin: DBA, query optimization, and replication agents, schema validation, migration scaffolding, and conventions for consistent MySQL development",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["mysql", "sql", "innodb", "schema", "migration", "replication"]
+}

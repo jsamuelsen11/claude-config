@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-postgresql",
+  "description": "PostgreSQL data plugin: DBA, query optimization, replication, and extension agents, schema validation, migration scaffolding, and conventions for consistent PostgreSQL development",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["postgresql", "postgres", "sql", "schema", "migration", "indexing", "replication"]
+}

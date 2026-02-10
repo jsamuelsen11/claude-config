@@ -1,0 +1,9 @@
+{
+  "name": "ccfg-sqlite",
+  "description": "SQLite data plugin: schema design and embedded application agents, schema validation, database initialization scaffolding, and conventions for consistent SQLite development with WAL mode and PRAGMA tuning",
+  "version": "1.0.0",
+  "author": { "name": "jsamuelsen" },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["sqlite", "sql", "embedded", "wal", "pragma", "turso", "libsql"]
+}
