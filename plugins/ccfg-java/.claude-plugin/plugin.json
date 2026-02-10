@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-java",
+  "description": "Java language plugin: Spring and Kotlin agents, project scaffolding, coverage automation, and conventions for consistent development with Maven/Gradle, JUnit 5, and Checkstyle",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["java", "kotlin", "spring-boot", "maven", "gradle", "junit"]
+}
