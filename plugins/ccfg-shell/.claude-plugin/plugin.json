@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-shell",
+  "description": "Shell scripting plugin: shell and automation agents, script scaffolding, and conventions for consistent development with shellcheck and shfmt",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["shell", "bash", "sh", "shellcheck", "shfmt", "automation"]
+}
