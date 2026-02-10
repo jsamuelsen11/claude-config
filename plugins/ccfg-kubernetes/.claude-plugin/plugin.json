@@ -1,0 +1,19 @@
+{
+  "name": "ccfg-kubernetes",
+  "description": "Kubernetes infrastructure plugin: manifest design, Helm chart engineering, deployment strategy agents, configuration validation, project scaffolding, and conventions for consistent K8s development",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": [
+    "kubernetes",
+    "k8s",
+    "helm",
+    "kustomize",
+    "deployment",
+    "manifest",
+    "container-orchestration"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-github-actions",
+  "description": "GitHub Actions infrastructure plugin: workflow design, deployment architecture, and supply chain security agents, workflow validation, CI/CD scaffolding, and conventions for consistent GitHub Actions development",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["github-actions", "ci", "cd", "workflows", "pipelines", "deployment", "actions"]
+}
