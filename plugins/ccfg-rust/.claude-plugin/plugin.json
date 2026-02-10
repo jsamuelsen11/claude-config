@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-rust",
+  "description": "Rust language plugin: async web and concurrency agents, project scaffolding, coverage automation, and conventions for consistent development with cargo clippy, rustfmt, and cargo workspaces",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["rust", "cargo", "axum", "tokio", "clippy", "rustfmt", "tarpaulin"]
+}
