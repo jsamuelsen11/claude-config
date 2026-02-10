@@ -1,0 +1,11 @@
+{
+  "name": "ccfg-csharp",
+  "description": "C#/.NET language plugin: ASP.NET Core and EF Core agents, project scaffolding, coverage automation, and conventions for consistent development with dotnet format, Roslyn analyzers, xUnit, and Central Package Management",
+  "version": "1.0.0",
+  "author": {
+    "name": "jsamuelsen"
+  },
+  "repository": "https://github.com/jsamuelsen11/claude-config",
+  "license": "MIT",
+  "keywords": ["csharp", "dotnet", "aspnet", "efcore", "xunit", "nuget", "roslyn"]
+}
