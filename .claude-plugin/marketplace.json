@@ -1,0 +1,240 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-config",
+  "metadata": {
+    "description": "Plugin marketplace encoding workflow preferences discovered across 275+ sessions — prevents wrong approaches, buggy code, and rejected actions through front-loaded configuration",
+    "version": "1.0.0"
+  },
+  "owner": {
+    "name": "jsamuelsen",
+    "email": "jsamuelsen11@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "ccfg-core",
+      "source": "./plugins/ccfg-core",
+      "description": "Foundation plugin: workflow rules, core agents, commands, security hooks, and GitHub MCP for consistent Claude Code behavior across all projects",
+      "version": "0.1.0",
+      "category": "foundation",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["workflow", "agents", "security", "mcp", "configuration"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-python",
+      "source": "./plugins/ccfg-python",
+      "description": "Python language plugin: framework and specialist agents, project scaffolding, coverage automation, and conventions for consistent development with uv, ruff, pytest, and mypy",
+      "version": "1.0.0",
+      "category": "language",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["python", "uv", "pytest", "ruff", "mypy", "fastapi", "django", "flask"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-golang",
+      "source": "./plugins/ccfg-golang",
+      "description": "Go language plugin: framework and specialist agents, project scaffolding, coverage automation, and conventions for consistent development with golangci-lint, gofumpt, and go modules",
+      "version": "1.0.0",
+      "category": "language",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["go", "golang", "gin", "grpc", "golangci-lint", "gofumpt"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-typescript",
+      "source": "./plugins/ccfg-typescript",
+      "description": "TypeScript language plugin: frontend and backend agents, project scaffolding, coverage automation, Playwright MCP, and conventions for consistent development with ESLint, Vitest, and strict tsconfig",
+      "version": "1.0.0",
+      "category": "language",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": [
+        "typescript",
+        "react",
+        "nextjs",
+        "angular",
+        "vue",
+        "svelte",
+        "node",
+        "vitest",
+        "playwright"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-java",
+      "source": "./plugins/ccfg-java",
+      "description": "Java language plugin: Spring and Kotlin agents, project scaffolding, coverage automation, and conventions for consistent development with Maven/Gradle, JUnit 5, and Checkstyle",
+      "version": "1.0.0",
+      "category": "language",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["java", "kotlin", "spring-boot", "maven", "gradle", "junit"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-rust",
+      "source": "./plugins/ccfg-rust",
+      "description": "Rust language plugin: async web and concurrency agents, project scaffolding, coverage automation, and conventions for consistent development with cargo clippy, rustfmt, and cargo workspaces",
+      "version": "1.0.0",
+      "category": "language",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["rust", "cargo", "axum", "tokio", "clippy", "rustfmt", "tarpaulin"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-csharp",
+      "source": "./plugins/ccfg-csharp",
+      "description": "C#/.NET language plugin: ASP.NET Core and EF Core agents, project scaffolding, coverage automation, and conventions for consistent development with dotnet format, Roslyn analyzers, xUnit, and Central Package Management",
+      "version": "1.0.0",
+      "category": "language",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["csharp", "dotnet", "aspnet", "efcore", "xunit", "nuget", "roslyn"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-shell",
+      "source": "./plugins/ccfg-shell",
+      "description": "Shell scripting plugin: shell and automation agents, script scaffolding, and conventions for consistent development with shellcheck and shfmt",
+      "version": "1.0.0",
+      "category": "language",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["shell", "bash", "sh", "shellcheck", "shfmt", "automation"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-mysql",
+      "source": "./plugins/ccfg-mysql",
+      "description": "MySQL data plugin: DBA, query optimization, and replication agents, schema validation, migration scaffolding, and conventions for consistent MySQL development",
+      "version": "1.0.0",
+      "category": "data",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["mysql", "sql", "innodb", "schema", "migration", "replication"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-postgresql",
+      "source": "./plugins/ccfg-postgresql",
+      "description": "PostgreSQL data plugin: DBA, query optimization, replication, and extension agents, schema validation, migration scaffolding, and conventions for consistent PostgreSQL development",
+      "version": "1.0.0",
+      "category": "data",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": [
+        "postgresql",
+        "postgres",
+        "sql",
+        "schema",
+        "migration",
+        "indexing",
+        "replication"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-mongodb",
+      "source": "./plugins/ccfg-mongodb",
+      "description": "MongoDB data plugin: document modeling, aggregation, and sharding agents, schema validation, collection scaffolding, and conventions for consistent MongoDB development",
+      "version": "1.0.0",
+      "category": "data",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["mongodb", "nosql", "document", "aggregation", "sharding", "atlas"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-redis",
+      "source": "./plugins/ccfg-redis",
+      "description": "Redis data plugin: data structure and pattern agents, key naming validation, connection scaffolding, and conventions for consistent Redis development",
+      "version": "1.0.0",
+      "category": "data",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["redis", "cache", "pub-sub", "streams", "data-structures", "distributed-lock"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-sqlite",
+      "source": "./plugins/ccfg-sqlite",
+      "description": "SQLite data plugin: schema design and embedded application agents, schema validation, database initialization scaffolding, and conventions for consistent SQLite development with WAL mode and PRAGMA tuning",
+      "version": "1.0.0",
+      "category": "data",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["sqlite", "sql", "embedded", "wal", "pragma", "turso", "libsql"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-docker",
+      "source": "./plugins/ccfg-docker",
+      "description": "Docker infrastructure plugin: Dockerfile optimization, Compose architecture, container security agents, config validation, and conventions for consistent Docker development",
+      "version": "1.0.0",
+      "category": "infrastructure",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": [
+        "docker",
+        "dockerfile",
+        "compose",
+        "container",
+        "image",
+        "multi-stage",
+        "buildkit"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-github-actions",
+      "source": "./plugins/ccfg-github-actions",
+      "description": "GitHub Actions infrastructure plugin: workflow design, deployment architecture, and supply chain security agents, workflow validation, CI/CD scaffolding, and conventions for consistent GitHub Actions development",
+      "version": "1.0.0",
+      "category": "infrastructure",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["github-actions", "ci", "cd", "workflows", "pipelines", "deployment", "actions"],
+      "license": "MIT"
+    },
+    {
+      "name": "ccfg-kubernetes",
+      "source": "./plugins/ccfg-kubernetes",
+      "description": "Kubernetes infrastructure plugin: manifest design, Helm chart engineering, deployment strategy agents, configuration validation, project scaffolding, and conventions for consistent K8s development",
+      "version": "1.0.0",
+      "category": "infrastructure",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": [
+        "kubernetes",
+        "k8s",
+        "helm",
+        "kustomize",
+        "deployment",
+        "manifest",
+        "container-orchestration"
+      ],
+      "license": "MIT"
+    }
+  ]
+}
