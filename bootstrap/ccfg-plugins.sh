@@ -146,7 +146,7 @@ parse_args() {
 			;;
 		*)
 			log_error "Unknown option: $1"
-			usage
+			exit 1
 			;;
 		esac
 	done
@@ -317,7 +317,7 @@ build_candidate_lists() {
 	for key in $(reg_all_keys); do
 		local lsp_lang="${REG_LSP_LANG[${key}]}"
 		if [[ -n "${lsp_lang}" ]]; then
-			overlap_count["${lsp_lang}"]=$(( ${overlap_count["${lsp_lang}"]:-0} + 1 ))
+			overlap_count["${lsp_lang}"]=$((${overlap_count["${lsp_lang}"]:-0} + 1))
 		fi
 	done
 
