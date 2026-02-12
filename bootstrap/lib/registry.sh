@@ -739,6 +739,66 @@ reg_lsp_pair() {
 	done
 }
 
+# reg_lsp_overlap_langs — return languages with >1 LSP plugin (one per line)
+reg_lsp_overlap_langs() {
+	local key
+	local -A count=()
+	for key in "${!REG_LSP_LANG[@]}"; do
+		local lang="${REG_LSP_LANG[${key}]}"
+		[[ -n "${lang}" ]] && count["${lang}"]=$((${count["${lang}"]:-0} + 1))
+	done
+	local lang
+	for lang in "${!count[@]}"; do
+		[[ "${count[${lang}]}" -gt 1 ]] && printf '%s\n' "${lang}"
+	done
+}
+
+# reg_lsp_preferred <lang> — return the preferred key for a language with
+# overlapping LSPs. Returns the key with preference="preferred", or the first
+# key found if none is marked.
+reg_lsp_preferred() {
+	local lang="$1"
+	local key first=""
+	for key in "${!REG_LSP_LANG[@]}"; do
+		[[ "${REG_LSP_LANG[${key}]}" != "${lang}" ]] && continue
+		[[ -z "${first}" ]] && first="${key}"
+		[[ "${REG_LSP_PREFERENCE[${key}]}" == "preferred" ]] && {
+			printf '%s' "${key}"
+			return 0
+		}
+	done
+	printf '%s' "${first}"
+}
+
+# reg_lsp_alternative <lang> — return the alternative key for a language with
+# overlapping LSPs. Returns the key with preference="alternative", or the first
+# non-preferred key found.
+reg_lsp_alternative() {
+	local lang="$1"
+	local key first=""
+	for key in "${!REG_LSP_LANG[@]}"; do
+		[[ "${REG_LSP_LANG[${key}]}" != "${lang}" ]] && continue
+		[[ -z "${first}" ]] && first="${key}"
+		[[ "${REG_LSP_PREFERENCE[${key}]}" == "alternative" ]] && {
+			printf '%s' "${key}"
+			return 0
+		}
+	done
+	printf '%s' "${first}"
+}
+
+# reg_is_lsp_overlap <key> — return 0 if this key's language has >1 LSP plugin.
+reg_is_lsp_overlap() {
+	local key="$1"
+	local lsp_lang="${REG_LSP_LANG[${key}]}"
+	[[ -z "${lsp_lang}" ]] && return 1
+	local k lsp_count=0
+	for k in "${!REG_LSP_LANG[@]}"; do
+		[[ "${REG_LSP_LANG[${k}]}" == "${lsp_lang}" ]] && lsp_count=$((lsp_count + 1))
+	done
+	[[ "${lsp_count}" -gt 1 ]]
+}
+
 # reg_install_cmd <key> — return the claude plugin install command
 reg_install_cmd() {
 	local key="$1"
