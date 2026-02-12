@@ -22,6 +22,17 @@ _CCFG_REGISTRY_LOADED=1
 export CCFG_REGISTRY_VERSION="1.0.0"
 
 # ---------------------------------------------------------------------------
+# Marketplace-to-repository mapping (for `claude plugin marketplace add`)
+# ---------------------------------------------------------------------------
+
+declare -A REG_MARKETPLACE_REPOS=(
+	["claude-plugins-official"]="anthropics/claude-plugins-official"
+	["claude-code-lsps"]="boostvolt/claude-code-lsps"
+	["anthropic-agent-skills"]="anthropics/skills"
+	["beads-marketplace"]="steveyegge/beads"
+)
+
+# ---------------------------------------------------------------------------
 # Plugin attribute arrays — all indexed by the same key.
 # ---------------------------------------------------------------------------
 
@@ -804,6 +815,27 @@ reg_install_cmd() {
 	local key="$1"
 	printf 'claude plugin install %s@%s' \
 		"${REG_NAME[${key}]}" "${REG_MARKETPLACE[${key}]}"
+}
+
+# reg_marketplace_repo <marketplace> — return the GitHub repo for a marketplace
+reg_marketplace_repo() {
+	local marketplace="$1"
+	printf '%s' "${REG_MARKETPLACE_REPOS[${marketplace}]:-}"
+}
+
+# reg_required_marketplaces <keys...> — return unique marketplace names from keys
+# Reads keys from stdin (one per line).
+reg_required_marketplaces() {
+	local -A seen=()
+	local key
+	while IFS= read -r key; do
+		[[ -z "${key}" ]] && continue
+		local mp="${REG_MARKETPLACE[${key}]}"
+		if [[ -n "${mp}" && -z "${seen[${mp}]:-}" ]]; then
+			printf '%s\n' "${mp}"
+			seen["${mp}"]=1
+		fi
+	done
 }
 
 # reg_count — return total number of registered plugins
