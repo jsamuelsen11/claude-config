@@ -585,6 +585,58 @@ test_lsp_single_source_auto_detected() {
 		"Single-source LSP should be auto-included" || return 1
 }
 
+test_registry_lsp_overlap_langs() {
+	# reg_lsp_overlap_langs should return languages with >1 LSP plugin
+	local overlap_langs
+	overlap_langs="$(reg_lsp_overlap_langs | sort)"
+	# Should include python (pyright-lsp + pyright), typescript, etc.
+	assert_contains "${overlap_langs}" "python" \
+		"Python should be an overlap language" || return 1
+	assert_contains "${overlap_langs}" "typescript" \
+		"TypeScript should be an overlap language" || return 1
+	# Should NOT include shell (single-source)
+	assert_not_contains "${overlap_langs}" "shell" \
+		"Shell should not be an overlap language" || return 1
+}
+
+test_registry_lsp_preferred() {
+	# reg_lsp_preferred should return the preferred key for a language
+	local preferred
+	preferred="$(reg_lsp_preferred "python")"
+	assert_equals "official/pyright-lsp" "${preferred}" \
+		"Python preferred LSP should be official/pyright-lsp" || return 1
+	# PHP is community-preferred (Intelephense)
+	preferred="$(reg_lsp_preferred "php")"
+	assert_equals "community/intelephense" "${preferred}" \
+		"PHP preferred LSP should be community/intelephense" || return 1
+}
+
+test_registry_is_lsp_overlap() {
+	# reg_is_lsp_overlap should return 0 for overlapping LSP keys
+	reg_is_lsp_overlap "official/pyright-lsp" || {
+		printf '    %s%s FAIL:%s pyright-lsp should be an overlap\n' "${RED}" "${CROSS}" "${RESET}"
+		return 1
+	}
+	# bash-language-server is single-source, should return 1
+	if reg_is_lsp_overlap "community/bash-language-server"; then
+		printf '    %s%s FAIL:%s bash-language-server should NOT be an overlap\n' "${RED}" "${CROSS}" "${RESET}"
+		return 1
+	fi
+}
+
+test_detection_deduplication() {
+	# A project that triggers both javascript and typescript should not duplicate
+	local project_dir
+	project_dir="$(create_project)"
+	printf '{"name": "test"}\n' >"${project_dir}/package.json"
+	touch "${project_dir}/app.tsx"
+	local output
+	output="$("${PLUGINS_SCRIPT}" --auto --dry-run --project-dir "${project_dir}" 2>&1)"
+	# Should still work correctly — no errors from duplicate detection
+	assert_contains "${output}" "Dry run complete" \
+		"Script should complete successfully with potential duplicates" || return 1
+}
+
 test_multiple_languages_detected() {
 	# Project with Python + Rust + Docker
 	local project_dir
@@ -648,7 +700,13 @@ run_test test_settings_auto_created
 # Non-interactive
 run_test test_non_tty_fallback
 
+# Registry helpers
+run_test test_registry_lsp_overlap_langs
+run_test test_registry_lsp_preferred
+run_test test_registry_is_lsp_overlap
+
 # Edge cases
+run_test test_detection_deduplication
 run_test test_empty_project_gets_universal
 run_test test_lsp_single_source_auto_detected
 run_test test_multiple_languages_detected

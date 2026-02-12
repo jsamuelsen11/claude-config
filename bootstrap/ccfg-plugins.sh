@@ -243,6 +243,18 @@ run_detection() {
 
 	# "always" is always a detection signal (universal plugins)
 	DETECTED_LANGS+=("always")
+
+	# Deduplicate detection signals
+	local -A _seen_langs=()
+	local -a _unique_langs=()
+	local _l
+	for _l in "${DETECTED_LANGS[@]}"; do
+		if [[ -z "${_seen_langs[${_l}]:-}" ]]; then
+			_unique_langs+=("${_l}")
+			_seen_langs["${_l}"]=1
+		fi
+	done
+	DETECTED_LANGS=("${_unique_langs[@]}")
 }
 
 # ---------------------------------------------------------------------------
@@ -311,25 +323,14 @@ build_candidate_lists() {
 	AUTO_KEYS=()
 	SUGGEST_KEYS=()
 
-	# First pass: identify languages with multiple LSP options (overlaps)
-	local -A overlap_count=()
-	local key
-	for key in $(reg_all_keys); do
-		local lsp_lang="${REG_LSP_LANG[${key}]}"
-		if [[ -n "${lsp_lang}" ]]; then
-			overlap_count["${lsp_lang}"]=$((${overlap_count["${lsp_lang}"]:-0} + 1))
-		fi
-	done
-
-	# Second pass: categorize into auto/suggest
 	local -a raw_auto=()
 	local -a raw_suggest=()
+	local key
 
 	for key in $(reg_all_keys); do
 		local tier="${REG_TIER[${key}]}"
 		local detect="${REG_DETECT[${key}]}"
 		local category="${REG_CATEGORY[${key}]}"
-		local lsp_lang="${REG_LSP_LANG[${key}]}"
 
 		# Category filter
 		if [[ -n "${CATEGORY_FILTER}" && "${category}" != "${CATEGORY_FILTER}" ]]; then
@@ -352,13 +353,8 @@ build_candidate_lists() {
 
 		[[ "${detected}" -eq 0 ]] && continue
 
-		# LSP overlap check: if language has >1 LSP, force to suggest
-		local is_overlap=0
-		if [[ -n "${lsp_lang}" && "${overlap_count[${lsp_lang}]:-0}" -gt 1 ]]; then
-			is_overlap=1
-		fi
-
-		if [[ "${tier}" == "auto" && "${is_overlap}" -eq 0 ]]; then
+		# Auto-tier with no LSP overlap → auto; everything else → suggest
+		if [[ "${tier}" == "auto" ]] && ! reg_is_lsp_overlap "${key}"; then
 			raw_auto+=("${key}")
 		else
 			raw_suggest+=("${key}")
@@ -468,7 +464,7 @@ print_auto_selection() {
 # handle_lsp_overlaps — present paired LSP choices for detected languages
 # ---------------------------------------------------------------------------
 handle_lsp_overlaps() {
-	# Find languages with LSP overlaps in SUGGEST_KEYS
+	# Collect languages with LSP overlaps present in SUGGEST_KEYS
 	local -A lsp_langs=()
 	local key
 	for key in "${SUGGEST_KEYS[@]}"; do
@@ -485,21 +481,10 @@ handle_lsp_overlaps() {
 		read -ra keys <<<"${keys_str}"
 		[[ "${#keys[@]}" -lt 2 ]] && continue
 
-		# Sort: preferred first
-		local preferred="" alternative=""
-		for key in "${keys[@]}"; do
-			if [[ "${REG_LSP_PREFERENCE[${key}]}" == "preferred" ]]; then
-				preferred="${key}"
-			else
-				alternative="${key}"
-			fi
-		done
-
-		# Fallback if preference not set
-		if [[ -z "${preferred}" ]]; then
-			preferred="${keys[0]}"
-			alternative="${keys[1]}"
-		fi
+		# Use registry helpers for preferred/alternative ordering
+		local preferred alternative
+		preferred="$(reg_lsp_preferred "${lang}")"
+		alternative="$(reg_lsp_alternative "${lang}")"
 
 		if [[ "${AUTO_MODE}" -eq 1 ]]; then
 			# In --auto mode, skip overlapping LSPs entirely
@@ -701,7 +686,11 @@ install_plugins() {
 			continue
 		fi
 
-		if timeout 60 claude plugin install "${name}@${marketplace}" >/dev/null 2>&1; then
+		local -a install_cmd=(claude plugin install "${name}@${marketplace}")
+		if command -v timeout &>/dev/null; then
+			install_cmd=(timeout 60 "${install_cmd[@]}")
+		fi
+		if "${install_cmd[@]}" >/dev/null 2>&1; then
 			log_quiet "    ${GREEN}${CHECK}${RESET} [${current}/${total}] ${name}@${marketplace}"
 			INSTALLED_KEYS+=("${key}")
 		else
