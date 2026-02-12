@@ -5,6 +5,7 @@ extend-ignore-re = [
 
 [default.extend-words]
 # Add project-specific words here
+edn = "edn"
 GTI = "GTI"
 GTIDs = "GTIDs"
 BRIN = "BRIN"
