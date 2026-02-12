@@ -161,13 +161,72 @@ assert_not_contains() {
 	fi
 }
 
-# Mock claude CLI — returns 0 without doing anything
+# Mock claude CLI — handles marketplace list and plugin install
 mock_claude() {
 	export PATH="${TEST_TMPDIR}/bin:${PATH}"
 	mkdir -p "${TEST_TMPDIR}/bin"
 	cat >"${TEST_TMPDIR}/bin/claude" <<'SCRIPT'
 #!/usr/bin/env bash
-# Mock claude CLI for testing — always succeeds
+# Mock claude CLI for testing
+if [[ "${1:-}" == "plugin" && "${2:-}" == "marketplace" && "${3:-}" == "list" ]]; then
+	# Return all known marketplaces
+	printf 'Configured marketplaces:\n\n'
+	printf '  ❯ claude-plugins-official\n'
+	printf '    Source: GitHub (anthropics/claude-plugins-official)\n\n'
+	printf '  ❯ claude-code-lsps\n'
+	printf '    Source: GitHub (boostvolt/claude-code-lsps)\n\n'
+	printf '  ❯ beads-marketplace\n'
+	printf '    Source: GitHub (steveyegge/beads)\n\n'
+	printf '  ❯ anthropic-agent-skills\n'
+	printf '    Source: GitHub (anthropics/skills)\n\n'
+	exit 0
+fi
+# All other commands succeed silently
+exit 0
+SCRIPT
+	chmod +x "${TEST_TMPDIR}/bin/claude"
+}
+
+# Mock claude CLI that reports a missing marketplace
+mock_claude_missing_marketplace() {
+	export PATH="${TEST_TMPDIR}/bin:${PATH}"
+	mkdir -p "${TEST_TMPDIR}/bin"
+	cat >"${TEST_TMPDIR}/bin/claude" <<'SCRIPT'
+#!/usr/bin/env bash
+if [[ "${1:-}" == "plugin" && "${2:-}" == "marketplace" && "${3:-}" == "list" ]]; then
+	# Return only one marketplace — others are missing
+	printf 'Configured marketplaces:\n\n'
+	printf '  ❯ claude-plugins-official\n'
+	printf '    Source: GitHub (anthropics/claude-plugins-official)\n\n'
+	exit 0
+fi
+exit 0
+SCRIPT
+	chmod +x "${TEST_TMPDIR}/bin/claude"
+}
+
+# Mock claude CLI that fails on install
+mock_claude_install_fails() {
+	export PATH="${TEST_TMPDIR}/bin:${PATH}"
+	mkdir -p "${TEST_TMPDIR}/bin"
+	cat >"${TEST_TMPDIR}/bin/claude" <<'SCRIPT'
+#!/usr/bin/env bash
+if [[ "${1:-}" == "plugin" && "${2:-}" == "marketplace" && "${3:-}" == "list" ]]; then
+	printf 'Configured marketplaces:\n\n'
+	printf '  ❯ claude-plugins-official\n'
+	printf '    Source: GitHub (anthropics/claude-plugins-official)\n\n'
+	printf '  ❯ claude-code-lsps\n'
+	printf '    Source: GitHub (boostvolt/claude-code-lsps)\n\n'
+	printf '  ❯ beads-marketplace\n'
+	printf '    Source: GitHub (steveyegge/beads)\n\n'
+	printf '  ❯ anthropic-agent-skills\n'
+	printf '    Source: GitHub (anthropics/skills)\n\n'
+	exit 0
+fi
+# All install commands fail
+if [[ "${1:-}" == "plugin" && "${2:-}" == "install" ]]; then
+	exit 1
+fi
 exit 0
 SCRIPT
 	chmod +x "${TEST_TMPDIR}/bin/claude"
