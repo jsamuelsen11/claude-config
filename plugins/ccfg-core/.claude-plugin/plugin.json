@@ -8,6 +8,9 @@
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
   "keywords": ["workflow", "agents", "security", "mcp", "configuration"],
+  "suggestedPermissions": {
+    "allow": ["Bash(bd:*)", "Bash(git:*)", "Bash(wc:*)", "Bash(lefthook:*)"]
+  },
   "hooks": {
     "PostToolUse": [
       {
