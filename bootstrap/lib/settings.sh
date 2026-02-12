@@ -88,7 +88,7 @@ settings_set_thinking() {
 	current="$(settings_read "${file}")" || return 1
 
 	local merged
-	merged="$(printf '%s' "${current}" | jq '.alwaysThinkingEnabled //= true')"
+	merged="$(printf '%s' "${current}" | jq 'if has("alwaysThinkingEnabled") then . else .alwaysThinkingEnabled = true end')"
 
 	settings_write "${file}" "${merged}"
 }

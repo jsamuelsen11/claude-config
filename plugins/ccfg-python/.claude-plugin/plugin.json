@@ -7,5 +7,15 @@
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["python", "uv", "pytest", "ruff", "mypy", "fastapi", "django", "flask"]
+  "keywords": ["python", "uv", "pytest", "ruff", "mypy", "fastapi", "django", "flask"],
+  "suggestedPermissions": {
+    "allow": [
+      "Bash(uvx ruff:*)",
+      "Bash(uvx mypy:*)",
+      "Bash(uv run pytest:*)",
+      "Bash(uv add:*)",
+      "Bash(uv sync:*)",
+      "Bash(pip install:*)"
+    ]
+  }
 }

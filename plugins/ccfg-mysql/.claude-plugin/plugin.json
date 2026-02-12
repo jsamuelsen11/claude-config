@@ -7,5 +7,8 @@
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["mysql", "sql", "innodb", "schema", "migration", "replication"]
+  "keywords": ["mysql", "sql", "innodb", "schema", "migration", "replication"],
+  "suggestedPermissions": {
+    "allow": []
+  }
 }
