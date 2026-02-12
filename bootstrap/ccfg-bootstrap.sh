@@ -78,7 +78,7 @@ declare -A LANG_TO_PLUGIN=(
 	[redis]=ccfg-redis
 	[sqlite]=ccfg-sqlite
 	[docker]=ccfg-docker
-	[github-actions]=ccfg-github-actions
+	["github-actions"]=ccfg-github-actions
 	[kubernetes]=ccfg-kubernetes
 	[markdown]=ccfg-markdown
 )
