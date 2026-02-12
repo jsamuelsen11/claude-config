@@ -362,38 +362,23 @@ Third-party plugin recommendations and installation.
 
 ### Curated Registry
 
-The script maintains a registry mapping languages to recommended third-party plugins. This list must
-be curated and locked before implementation.
+The script reads its plugin data from `bootstrap/lib/registry.sh` — a bash-sourceable file with 78
+plugin entries across 5 marketplaces. See [REGISTRY.md](./REGISTRY.md) for the complete reference.
 
-**Known recommendations (from current user setup):**
+**Registry summary:**
 
-| Category       | Detected Signal            | Recommended Plugin       | Marketplace             |
-| -------------- | -------------------------- | ------------------------ | ----------------------- |
-| Python         | pyproject.toml, etc.       | `pyright-lsp`            | claude-plugins-official |
-| Go             | go.mod                     | `gopls`                  | claude-code-lsps        |
-| TypeScript     | package.json + tsconfig    | `vtsls`                  | claude-code-lsps        |
-| Java           | pom.xml, build.gradle      | `jdtls`                  | claude-code-lsps        |
-| Rust           | Cargo.toml                 | `rust-analyzer`          | claude-code-lsps        |
-| C#             | \*.csproj                  | `omnisharp`              | claude-code-lsps        |
-| C/C++          | CMakeLists.txt, Makefile   | `clangd`                 | claude-code-lsps        |
-| PHP            | composer.json              | `intelephense`           | claude-code-lsps        |
-| Ruby           | Gemfile                    | `solargraph`             | claude-code-lsps        |
-| Kotlin         | build.gradle.kts           | `kotlin-language-server` | claude-code-lsps        |
-| HTML/CSS       | `*.html`, `*.css`          | `vscode-html-css`        | claude-code-lsps        |
-| General        | always                     | `context7`               | claude-plugins-official |
-| General        | always                     | `serena`                 | claude-plugins-official |
-| Code review    | always                     | `greptile`               | claude-plugins-official |
-| Code review    | always                     | `code-review`            | claude-plugins-official |
-| Feature dev    | always                     | `feature-dev`            | claude-plugins-official |
-| Documents      | always                     | `document-skills`        | anthropic-agent-skills  |
-| Git commits    | always                     | `commit-commands`        | claude-plugins-official |
-| Frontend       | `*.html`, `*.tsx`, `*.vue` | `frontend-design`        | claude-plugins-official |
-| Issue tracking | .beads/ exists             | `beads`                  | beads-marketplace       |
-| LSP (Go)       | go.mod                     | `gopls-lsp`              | claude-plugins-official |
-| LSP (Java)     | pom.xml, build.gradle      | `jdtls-lsp`              | claude-plugins-official |
+| Tier        | Count | `--auto` behavior       | Interactive behavior     |
+| ----------- | ----- | ----------------------- | ------------------------ |
+| **auto**    | 14    | Installed automatically | Pre-selected (checkmark) |
+| **suggest** | 30    | Shown, not installed    | Available (dot symbol)   |
+| **info**    | 34    | Hidden                  | Only via `--list`        |
 
-> **Note**: This table is preliminary. A dedicated task will curate and finalize the full list
-> before implementation.
+**Categories:** 33 LSP plugins (22 languages), 20 general, 20 integration, 2 style, 2 skills, 1
+issue tracking.
+
+**LSP overlap handling:** For 11 languages with plugins in both `claude-plugins-official` and
+`claude-code-lsps`, both options are presented and the user picks one. In `--auto` mode, overlapping
+LSPs are skipped (user must choose interactively).
 
 ### Plugins CLI
 
