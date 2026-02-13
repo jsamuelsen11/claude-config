@@ -823,13 +823,11 @@ reg_marketplace_repo() {
 	printf '%s' "${REG_MARKETPLACE_REPOS[${marketplace}]:-}"
 }
 
-# reg_required_marketplaces <keys...> — return unique marketplace names from keys
-# Reads keys from stdin (one per line).
+# reg_required_marketplaces <keys...> — return unique marketplace names for keys
 reg_required_marketplaces() {
 	local -A seen=()
 	local key
-	while IFS= read -r key; do
-		[[ -z "${key}" ]] && continue
+	for key in "$@"; do
 		local mp="${REG_MARKETPLACE[${key}]}"
 		if [[ -n "${mp}" && -z "${seen[${mp}]:-}" ]]; then
 			printf '%s\n' "${mp}"

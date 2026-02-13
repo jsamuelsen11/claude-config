@@ -664,13 +664,12 @@ check_marketplaces() {
 		return 0
 	fi
 
-	# Collect required marketplaces from selection
+	# Collect required marketplaces from selection (delegate to registry helper)
 	local -A required=()
-	local key
-	for key in "${SELECTED_KEYS[@]}"; do
-		local mp="${REG_MARKETPLACE[${key}]}"
-		[[ -n "${mp}" ]] && required["${mp}"]=1
-	done
+	local mp
+	while IFS= read -r mp; do
+		required["${mp}"]=1
+	done < <(reg_required_marketplaces "${SELECTED_KEYS[@]}")
 
 	# Get configured marketplaces
 	local mp_output
@@ -679,19 +678,20 @@ check_marketplaces() {
 		return 0
 	}
 
-	# Parse configured marketplace names from output
+	# Parse configured marketplace names from output.
+	# Matches lines with a leading bullet (❯, >, -, *) followed by the name,
+	# trimming surrounding whitespace. This handles current and likely future
+	# CLI output variations.
 	local -A configured=()
 	local line
 	while IFS= read -r line; do
-		# Lines like "  ❯ claude-plugins-official"
 		local name
-		name="$(printf '%s' "${line}" | sed -n 's/^[[:space:]]*[❯>][[:space:]]*//p')"
+		name="$(printf '%s' "${line}" | sed -n 's/^[[:space:]]*[❯>*-][[:space:]]*\([^[:space:]].*[^[:space:]]\)[[:space:]]*$/\1/p')"
 		[[ -n "${name}" ]] && configured["${name}"]=1
 	done <<<"${mp_output}"
 
 	# Check each required marketplace
 	local missing=0
-	local mp
 	for mp in "${!required[@]}"; do
 		if [[ -z "${configured[${mp}]:-}" ]]; then
 			missing=$((missing + 1))
