@@ -713,6 +713,197 @@ test_multiple_languages_detected() {
 }
 
 # ──────────────────────────────────────────────────────────────────
+# Test Cases: Per-Language Recommendation Accuracy
+# ──────────────────────────────────────────────────────────────────
+
+test_detection_golang_project() {
+	local project_dir
+	project_dir="$(create_project)"
+	touch "${project_dir}/go.mod"
+	local output
+	output="$("${PLUGINS_SCRIPT}" --auto --dry-run --project-dir "${project_dir}" 2>&1)"
+	# Go has overlapping LSPs (gopls-lsp vs gopls) — should be noted in auto
+	assert_contains "${output}" "golang LSP: skipped" \
+		"Go LSP overlap should be noted" || return 1
+}
+
+test_detection_java_project() {
+	local project_dir
+	project_dir="$(create_project)"
+	touch "${project_dir}/pom.xml"
+	local output
+	output="$("${PLUGINS_SCRIPT}" --auto --dry-run --project-dir "${project_dir}" 2>&1)"
+	# Java has overlapping LSPs (jdtls-lsp vs jdtls)
+	assert_contains "${output}" "java LSP: skipped" \
+		"Java LSP overlap should be noted" || return 1
+}
+
+test_detection_csharp_project() {
+	local project_dir
+	project_dir="$(create_project)"
+	touch "${project_dir}/App.csproj"
+	local output
+	output="$("${PLUGINS_SCRIPT}" --auto --dry-run --project-dir "${project_dir}" 2>&1)"
+	# C# has overlapping LSPs (csharp-lsp vs omnisharp)
+	assert_contains "${output}" "csharp LSP: skipped" \
+		"C# LSP overlap should be noted" || return 1
+}
+
+test_detection_docker_project() {
+	local project_dir
+	project_dir="$(create_project)"
+	touch "${project_dir}/Dockerfile"
+	local output
+	output="$("${PLUGINS_SCRIPT}" --auto --dry-run --project-dir "${project_dir}" 2>&1)"
+	# Docker should be detected (shown in output) and script should complete
+	assert_contains "${output}" "docker" \
+		"Docker should be detected" || return 1
+	assert_contains "${output}" "Dry run complete" \
+		"Script should complete with docker detection" || return 1
+}
+
+test_detection_kubernetes_project() {
+	local project_dir
+	project_dir="$(create_project)"
+	mkdir -p "${project_dir}/k8s"
+	local output
+	output="$("${PLUGINS_SCRIPT}" --auto --dry-run --project-dir "${project_dir}" 2>&1)"
+	assert_contains "${output}" "kubernetes" \
+		"Kubernetes should be detected" || return 1
+	assert_contains "${output}" "Dry run complete" \
+		"Script should complete with kubernetes detection" || return 1
+}
+
+test_detection_github_actions_project() {
+	local project_dir
+	project_dir="$(create_project)"
+	mkdir -p "${project_dir}/.github/workflows"
+	local output
+	output="$("${PLUGINS_SCRIPT}" --auto --dry-run --project-dir "${project_dir}" 2>&1)"
+	assert_contains "${output}" "github-actions" \
+		"GitHub Actions should be detected" || return 1
+	assert_contains "${output}" "Dry run complete" \
+		"Script should complete with github-actions detection" || return 1
+}
+
+# ──────────────────────────────────────────────────────────────────
+# Test Cases: Marketplace Availability
+# ──────────────────────────────────────────────────────────────────
+
+test_missing_marketplace_error() {
+	# When a required marketplace is not configured, script should error
+	mock_claude_missing_marketplace
+	printf '{}\n' >"${TEST_TMPDIR}/.claude/settings.json"
+	local project_dir
+	project_dir="$(create_project)"
+	local exit_code=0
+	local output
+	output="$("${PLUGINS_SCRIPT}" --auto --project-dir "${project_dir}" 2>&1)" || exit_code=$?
+	# Should fail (anthropic-agent-skills is missing)
+	if [[ "${exit_code}" -eq 0 ]]; then
+		printf '    %s%s FAIL:%s Should exit non-zero when marketplace is missing\n' \
+			"${RED}" "${CROSS}" "${RESET}"
+		return 1
+	fi
+	# Should show helpful error with add command
+	assert_contains "${output}" "Missing marketplace" \
+		"Should mention missing marketplace" || return 1
+	assert_contains "${output}" "claude plugin marketplace add" \
+		"Should show marketplace add command" || return 1
+}
+
+test_missing_marketplace_dry_run_warns() {
+	# In dry-run mode, missing marketplace should warn but not abort
+	mock_claude_missing_marketplace
+	printf '{}\n' >"${TEST_TMPDIR}/.claude/settings.json"
+	local project_dir
+	project_dir="$(create_project)"
+	local exit_code=0
+	local output
+	output="$("${PLUGINS_SCRIPT}" --auto --dry-run --project-dir "${project_dir}" 2>&1)" || exit_code=$?
+	# Should succeed (dry-run doesn't abort on missing marketplace)
+	assert_exit_code 0 "${exit_code}" \
+		"Dry-run should not abort on missing marketplace" || return 1
+	# Should still warn
+	assert_contains "${output}" "Missing marketplace" \
+		"Dry-run should warn about missing marketplace" || return 1
+	assert_contains "${output}" "Dry run complete" \
+		"Dry-run should complete normally" || return 1
+}
+
+# ──────────────────────────────────────────────────────────────────
+# Test Cases: Install Failure Handling
+# ──────────────────────────────────────────────────────────────────
+
+test_install_failure_continues() {
+	# When claude plugin install fails, script should continue and report
+	mock_claude_install_fails
+	printf '{}\n' >"${TEST_TMPDIR}/.claude/settings.json"
+	local project_dir
+	project_dir="$(create_project)"
+	local output
+	output="$("${PLUGINS_SCRIPT}" --auto --project-dir "${project_dir}" 2>&1)" || true
+	# Should report failures
+	assert_contains "${output}" "install failed" \
+		"Failed installs should be reported" || return 1
+	# Should mention number failed in summary
+	assert_contains "${output}" "failed" \
+		"Summary should mention failures" || return 1
+}
+
+test_install_failure_not_in_settings() {
+	# Failed installs should NOT be added to enabledPlugins
+	mock_claude_install_fails
+	printf '{}\n' >"${TEST_TMPDIR}/.claude/settings.json"
+	local project_dir
+	project_dir="$(create_project)"
+	"${PLUGINS_SCRIPT}" --auto --quiet --project-dir "${project_dir}" >/dev/null 2>&1 || true
+	local settings="${TEST_TMPDIR}/.claude/settings.json"
+	# enabledPlugins should be empty (no successful installs)
+	local plugin_count
+	plugin_count="$(jq '.enabledPlugins // {} | keys | length' "${settings}" 2>/dev/null)"
+	assert_equals "0" "${plugin_count}" \
+		"Failed installs should not be in enabledPlugins" || return 1
+}
+
+# ──────────────────────────────────────────────────────────────────
+# Test Cases: Already-Installed Idempotency
+# ──────────────────────────────────────────────────────────────────
+
+test_already_enabled_idempotent() {
+	# Plugins already in enabledPlugins should be preserved without duplication
+	mock_claude
+	cat >"${TEST_TMPDIR}/.claude/settings.json" <<'JSON'
+{
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "document-skills@anthropic-agent-skills": true
+  }
+}
+JSON
+	local project_dir
+	project_dir="$(create_project)"
+	"${PLUGINS_SCRIPT}" --auto --quiet --project-dir "${project_dir}" >/dev/null 2>&1
+	local settings="${TEST_TMPDIR}/.claude/settings.json"
+	# All 3 should still be true (not overwritten or duplicated)
+	assert_json_key "${settings}" \
+		'.enabledPlugins["context7@claude-plugins-official"]' "true" \
+		"context7 should remain enabled" || return 1
+	assert_json_key "${settings}" \
+		'.enabledPlugins["commit-commands@claude-plugins-official"]' "true" \
+		"commit-commands should remain enabled" || return 1
+	assert_json_key "${settings}" \
+		'.enabledPlugins["document-skills@anthropic-agent-skills"]' "true" \
+		"document-skills should remain enabled" || return 1
+	# Count should be exactly 3 (no duplicates, no extra keys)
+	local plugin_count
+	plugin_count="$(jq '.enabledPlugins | keys | length' "${settings}" 2>/dev/null)"
+	assert_equals "3" "${plugin_count}" \
+		"enabledPlugins count should remain 3" || return 1
+}
+
+# ──────────────────────────────────────────────────────────────────
 # Test Runner
 # ──────────────────────────────────────────────────────────────────
 
@@ -763,6 +954,25 @@ run_test test_non_tty_fallback
 run_test test_registry_lsp_overlap_langs
 run_test test_registry_lsp_preferred
 run_test test_registry_is_lsp_overlap
+
+# Per-language recommendation accuracy
+run_test test_detection_golang_project
+run_test test_detection_java_project
+run_test test_detection_csharp_project
+run_test test_detection_docker_project
+run_test test_detection_kubernetes_project
+run_test test_detection_github_actions_project
+
+# Marketplace availability
+run_test test_missing_marketplace_error
+run_test test_missing_marketplace_dry_run_warns
+
+# Install failure handling
+run_test test_install_failure_continues
+run_test test_install_failure_not_in_settings
+
+# Already-installed idempotency
+run_test test_already_enabled_idempotent
 
 # Edge cases
 run_test test_detection_deduplication
