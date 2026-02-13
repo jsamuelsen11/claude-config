@@ -652,6 +652,79 @@ print_selection_summary() {
 }
 
 # ---------------------------------------------------------------------------
+# check_marketplaces — verify required marketplaces are configured
+# Returns 0 if all present, 1 if any missing (with helpful instructions).
+# In --dry-run mode, warns but returns 0 (does not block).
+# ---------------------------------------------------------------------------
+check_marketplaces() {
+	[[ "${#SELECTED_KEYS[@]}" -eq 0 ]] && return 0
+
+	# Skip if claude CLI not available (install_plugins will catch this)
+	if ! command -v claude &>/dev/null; then
+		return 0
+	fi
+
+	# Collect required marketplaces from selection (delegate to registry helper)
+	local -A required=()
+	local mp
+	while IFS= read -r mp; do
+		required["${mp}"]=1
+	done < <(reg_required_marketplaces "${SELECTED_KEYS[@]}")
+
+	# Get configured marketplaces
+	local mp_output
+	mp_output="$(claude plugin marketplace list 2>/dev/null)" || {
+		log_warn "Could not check marketplace availability"
+		return 0
+	}
+
+	# Parse configured marketplace names from output.
+	# Matches lines with a leading bullet (❯, >, -, *) followed by the name,
+	# trimming surrounding whitespace. This handles current and likely future
+	# CLI output variations.
+	local -A configured=()
+	local line
+	while IFS= read -r line; do
+		local name
+		name="$(printf '%s' "${line}" | sed -n 's/^[[:space:]]*[❯>*-][[:space:]]*\([^[:space:]].*[^[:space:]]\)[[:space:]]*$/\1/p')"
+		[[ -n "${name}" ]] && configured["${name}"]=1
+	done <<<"${mp_output}"
+
+	# Check each required marketplace
+	local missing=0
+	for mp in "${!required[@]}"; do
+		if [[ -z "${configured[${mp}]:-}" ]]; then
+			missing=$((missing + 1))
+			local repo
+			repo="$(reg_marketplace_repo "${mp}")"
+			if [[ "${DRY_RUN}" -eq 1 ]]; then
+				log_quiet "    ${YELLOW}${WARN_SYM}${RESET} Missing marketplace: ${mp}"
+				if [[ -n "${repo}" ]]; then
+					log_quiet "      Run: ${CYAN}claude plugin marketplace add ${repo}${RESET}"
+				fi
+			else
+				log_error "Missing marketplace: ${mp}"
+				if [[ -n "${repo}" ]]; then
+					log_error "Run: claude plugin marketplace add ${repo}"
+				fi
+			fi
+		fi
+	done
+
+	if [[ "${missing}" -gt 0 ]]; then
+		if [[ "${DRY_RUN}" -eq 1 ]]; then
+			log_quiet ""
+			return 0
+		fi
+		log_error "${missing} required marketplace(s) not configured. Add them and re-run."
+		ERRORS=$((ERRORS + 1))
+		return 1
+	fi
+
+	return 0
+}
+
+# ---------------------------------------------------------------------------
 # install_plugins — run claude plugin install for each selected key
 # ---------------------------------------------------------------------------
 install_plugins() {
@@ -847,6 +920,12 @@ main() {
 
 	# Show selection summary
 	print_selection_summary
+
+	# Verify required marketplaces are configured
+	check_marketplaces || {
+		print_summary
+		exit 1
+	}
 
 	# Install selected plugins
 	install_plugins
