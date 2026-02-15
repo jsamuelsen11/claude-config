@@ -20,16 +20,85 @@ These rules prevent recurring friction patterns discovered across 275 sessions: 
 pre-commit hooks, lefthook, or other automated checks configured, they must pass before you can
 close a task or create a commit.
 
-**Never propose `nolint` directives, `noqa` comments, lint rule exclusions, or ignoring lint errors
-as a solution.** These are band-aids that hide problems. Fix the root cause instead:
+**Do not suppress linter warnings, formatter checks, or static analysis findings.** Always attempt
+to fix the root cause first. Suppression hides problems and creates technical debt.
 
-- If a linter complains about cyclomatic complexity, refactor the function
-- If a linter complains about line length, break the line appropriately
-- If a linter complains about unused imports, remove them
-- If a linter complains about naming conventions, rename the variable
+**Inline suppression patterns (do not use without exhausting alternatives):**
 
-The only acceptable exception is when the linter is objectively wrong about a specific line (rare),
-and you can document why with a detailed comment explaining the business reason.
+- **JavaScript/TypeScript**: `eslint-disable`, `eslint-disable-next-line`, `@ts-ignore`,
+  `@ts-expect-error`, `@ts-nocheck`, `// prettier-ignore`
+- **Python**: `# noqa`, `# type: ignore`, `# pylint: disable`, `# nosec`
+- **Rust**: `#[allow(...)]` (blanket forms like `dead_code`, `clippy::all`, `unused`)
+- **Go**: `//nolint`, `_ = err` (silencing errors is suppression)
+- **Java**: `@SuppressWarnings`, `@SuppressFBWarnings`
+- **C#/.NET**: `#pragma warning disable`, `[SuppressMessage]`, adding to `<NoWarn>`
+- **Shell**: `# shellcheck disable=SC####`
+- **Coverage/quality**: `# pragma: no cover`, `/* istanbul ignore */`, `skipcq`
+
+**Config-level bypasses are equally prohibited.** Do not work around findings by:
+
+- Adding rules to ignore or disable lists in config files (`.eslintrc`, `ruff.toml`,
+  `.golangci.yml`, `pyproject.toml`, etc.)
+- Raising thresholds to make violations pass (e.g., increasing max complexity)
+- Removing linter plugins or rulesets to eliminate categories of findings
+- Switching formatters or linters to avoid specific checks
+
+**Fix root causes — examples:**
+
+```python
+# WRONG: Suppress complexity warning
+def process(items):  # noqa: C901
+    if a:
+        if b:
+            if c:
+                ...
+
+# RIGHT: Refactor to reduce complexity
+def process(items):
+    if not _should_process(items):
+        return
+    validated = _validate(items)
+    return _apply(validated)
+```
+
+```typescript
+// WRONG: Ignore the type error
+// @ts-ignore
+const result: number = fetchData();
+
+// RIGHT: Handle the type properly
+const data: unknown = fetchData();
+const result = typeof data === 'number' ? data : 0;
+```
+
+```go
+// WRONG: Silence the error
+result, _ := doSomething()
+
+// RIGHT: Handle or propagate
+result, err := doSomething()
+if err != nil {
+    return fmt.Errorf("doSomething: %w", err)
+}
+```
+
+**Common fixes by violation type:**
+
+- **Complexity**: Extract helper functions, use early returns, simplify conditionals
+- **Line length**: Break at logical points, extract to named variables
+- **Unused imports/variables**: Remove them
+- **Naming conventions**: Rename to match the project style
+- **Missing error handling**: Add proper handling or propagation
+- **Type errors**: Add correct types, use type guards, validate at boundaries
+
+**When suppression is acceptable:** If you have genuinely attempted to fix the root cause and the
+finding is a false positive, a tooling bug, or a third-party code boundary that cannot be changed,
+targeted suppression is acceptable under these conditions:
+
+1. Use the most specific suppression possible (single line, single rule — never file-level or
+   blanket suppressions)
+2. Add a comment explaining WHY the finding is a false positive or unfixable
+3. Reference a linter issue tracker link if it is a known tooling bug
 
 ### Markdown Files
 
