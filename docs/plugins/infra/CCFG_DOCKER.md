@@ -40,7 +40,15 @@ plugins/ccfg-docker/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["docker", "dockerfile", "compose", "container", "image", "multi-stage", "buildkit"]
+  "keywords": ["docker", "dockerfile", "compose", "container", "image", "multi-stage", "buildkit"],
+  "suggestedPermissions": {
+    "allow": [
+      "Bash(docker build:*)",
+      "Bash(docker compose:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker images:*)"
+    ]
+  }
 }
 ```
 

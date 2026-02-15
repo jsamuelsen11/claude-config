@@ -40,7 +40,10 @@ plugins/ccfg-github-actions/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["github-actions", "ci", "cd", "workflows", "pipelines", "deployment", "actions"]
+  "keywords": ["github-actions", "ci", "cd", "workflows", "pipelines", "deployment", "actions"],
+  "suggestedPermissions": {
+    "allow": ["Bash(gh run list:*)", "Bash(gh run view:*)"]
+  }
 }
 ```
 
