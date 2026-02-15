@@ -41,7 +41,10 @@ plugins/ccfg-postgresql/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["postgresql", "postgres", "sql", "schema", "migration", "indexing", "replication"]
+  "keywords": ["postgresql", "postgres", "sql", "schema", "migration", "indexing", "replication"],
+  "suggestedPermissions": {
+    "allow": []
+  }
 }
 ```
 
