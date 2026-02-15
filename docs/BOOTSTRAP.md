@@ -475,6 +475,13 @@ skill. This is always loaded into Claude's context, so brevity matters.
 - Handle errors explicitly — no empty catch blocks or swallowed exceptions
 - Type-annotate function signatures in typed languages
 
+## Incremental Validation
+
+- Run linters and tests after each logical unit of work — not just at the end
+- Fix failures immediately before moving to the next piece
+- Never batch all testing to the end of implementation
+- If a test or lint check fails, stop and fix before writing more code
+
 ## Git Workflow
 
 - Never push to main directly — use feature branches
