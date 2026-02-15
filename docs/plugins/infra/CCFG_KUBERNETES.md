@@ -48,7 +48,16 @@ plugins/ccfg-kubernetes/
     "deployment",
     "manifest",
     "container-orchestration"
-  ]
+  ],
+  "suggestedPermissions": {
+    "allow": [
+      "Bash(kubectl get:*)",
+      "Bash(kubectl describe:*)",
+      "Bash(kubectl logs:*)",
+      "Bash(helm list:*)",
+      "Bash(helm template:*)"
+    ]
+  }
 }
 ```
 

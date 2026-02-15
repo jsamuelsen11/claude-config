@@ -38,7 +38,10 @@ plugins/ccfg-sqlite/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["sqlite", "sql", "embedded", "wal", "pragma", "turso", "libsql"]
+  "keywords": ["sqlite", "sql", "embedded", "wal", "pragma", "turso", "libsql"],
+  "suggestedPermissions": {
+    "allow": []
+  }
 }
 ```
 

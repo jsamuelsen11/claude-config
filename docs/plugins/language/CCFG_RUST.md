@@ -41,7 +41,10 @@ plugins/ccfg-rust/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["rust", "cargo", "axum", "tokio", "clippy", "rustfmt", "tarpaulin"]
+  "keywords": ["rust", "cargo", "axum", "tokio", "clippy", "rustfmt", "tarpaulin"],
+  "suggestedPermissions": {
+    "allow": ["Bash(cargo:*)"]
+  }
 }
 ```
 

@@ -33,6 +33,7 @@ plugins/ccfg-core/
 │   ├── epic-execute.md
 │   ├── pr-review.md
 │   ├── pr-create.md
+│   ├── project-init.md
 │   ├── repo-pack.md
 │   └── security-check.md
 ├── skills/
@@ -58,6 +59,9 @@ plugins/ccfg-core/
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
   "keywords": ["workflow", "agents", "security", "mcp", "configuration"],
+  "suggestedPermissions": {
+    "allow": ["Bash(bd:*)", "Bash(git:*)", "Bash(wc:*)", "Bash(lefthook:*)"]
+  },
   "hooks": {
     "PostToolUse": [
       {
@@ -134,14 +138,14 @@ tools, and model preference, followed by a system prompt.
 | `cloud-architect`        | AWS/Azure/GCP architecture, multi-cloud patterns, cost optimization, IAM                    | sonnet |
 | `requirements-analyst`   | Requirements elicitation, user stories, acceptance criteria, scope definition, traceability | sonnet |
 
-## Commands (5)
+## Commands (6)
 
 Each command is an `.md` file in `commands/` with YAML frontmatter for description, argument-hint,
 and allowed-tools.
 
 ### /ccfg-core:epic-execute
 
-**Purpose**: Execute a beads task with a consistent 5-phase workflow.
+**Purpose**: Execute a beads task with a consistent 6-phase workflow.
 
 **Phases**: Context Recovery -> Branch -> Planning Conversation -> Implementation -> Validation ->
 PR & Close
@@ -197,6 +201,22 @@ PR & Close
 5. No secrets detected in diff
 
 **Output**: Creates PR with structured body (summary, changes, validation checklist).
+
+### /ccfg-core:project-init
+
+**Purpose**: Initialize a project's `CLAUDE.md` with language-specific convention sections.
+
+**Trigger**: User invokes to set up or update managed convention sections for a project.
+
+**Allowed tools**: `Bash(*/ccfg-project-init.sh:*), Bash(*/ccfg-project-init:*), Read, Glob, Grep`
+
+**Behavior**:
+
+- Auto-detects languages and technologies in the project directory
+- Creates `./CLAUDE.md` with one managed section per detected technology (8-15 lines each)
+- Supports `--auto`, `--dry-run`, `--update`, `--project-dir`, `--local` flags
+- Idempotent: re-running with same template version produces zero changes
+- Creates backup before any modification
 
 ### /ccfg-core:repo-pack
 
@@ -362,9 +382,9 @@ warning and can remediate before proceeding.
 The core plugin defines MCP server configurations that enhance cross-cutting workflows. Cloud-based
 MCP servers (Context7, Serena, Greptile) remain as their own official plugins — not redefined here.
 
-| Server     | Purpose                                              | Status |
-| ---------- | ---------------------------------------------------- | ------ |
-| github-mcp | GitHub API access for PRs, issues, reviews, and code | Active |
+| Server | Purpose                                              | Status |
+| ------ | ---------------------------------------------------- | ------ |
+| github | GitHub API access for PRs, issues, reviews, and code | Active |
 
 The `.mcp.json` file at plugin root configures this server for use by all core commands and agents.
 

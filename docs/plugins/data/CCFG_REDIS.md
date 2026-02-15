@@ -38,7 +38,10 @@ plugins/ccfg-redis/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["redis", "cache", "pub-sub", "streams", "data-structures", "distributed-lock"]
+  "keywords": ["redis", "cache", "pub-sub", "streams", "data-structures", "distributed-lock"],
+  "suggestedPermissions": {
+    "allow": []
+  }
 }
 ```
 

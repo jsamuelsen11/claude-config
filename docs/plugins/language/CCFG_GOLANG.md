@@ -41,7 +41,10 @@ plugins/ccfg-golang/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["go", "golang", "gin", "grpc", "golangci-lint", "gofumpt"]
+  "keywords": ["go", "golang", "gin", "grpc", "golangci-lint", "gofumpt"],
+  "suggestedPermissions": {
+    "allow": ["Bash(go:*)", "Bash(golangci-lint:*)"]
+  }
 }
 ```
 

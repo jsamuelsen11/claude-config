@@ -42,7 +42,10 @@ plugins/ccfg-csharp/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["csharp", "dotnet", "aspnet", "efcore", "xunit", "nuget", "roslyn"]
+  "keywords": ["csharp", "dotnet", "aspnet", "efcore", "xunit", "nuget", "roslyn"],
+  "suggestedPermissions": {
+    "allow": ["Bash(dotnet:*)"]
+  }
 }
 ```
 

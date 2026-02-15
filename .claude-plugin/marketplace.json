@@ -235,6 +235,18 @@
         "container-orchestration"
       ],
       "license": "MIT"
+    },
+    {
+      "name": "ccfg-markdown",
+      "source": "./plugins/ccfg-markdown",
+      "description": "Markdown tooling plugin: technical writing and documentation architecture agents, lint validation, documentation scaffolding, and conventions for consistent Markdown authoring with markdownlint and Vale",
+      "version": "1.0.0",
+      "category": "tooling",
+      "author": {
+        "name": "jsamuelsen"
+      },
+      "keywords": ["markdown", "documentation", "markdownlint", "vale", "technical-writing"],
+      "license": "MIT"
     }
   ]
 }

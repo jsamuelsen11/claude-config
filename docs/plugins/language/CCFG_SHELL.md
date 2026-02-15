@@ -36,7 +36,10 @@ plugins/ccfg-shell/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["shell", "bash", "sh", "shellcheck", "shfmt", "automation"]
+  "keywords": ["shell", "bash", "sh", "shellcheck", "shfmt", "automation"],
+  "suggestedPermissions": {
+    "allow": ["Bash(shellcheck:*)", "Bash(shfmt:*)"]
+  }
 }
 ```
 

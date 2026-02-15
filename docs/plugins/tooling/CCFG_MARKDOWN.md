@@ -41,7 +41,10 @@ plugins/ccfg-markdown/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["markdown", "documentation", "readme", "adr", "changelog", "technical-writing"]
+  "keywords": ["markdown", "documentation", "readme", "adr", "changelog", "technical-writing"],
+  "suggestedPermissions": {
+    "allow": ["Bash(npx markdownlint:*)"]
+  }
 }
 ```
 

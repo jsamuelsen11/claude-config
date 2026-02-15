@@ -40,7 +40,10 @@ plugins/ccfg-mongodb/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["mongodb", "nosql", "document", "aggregation", "sharding", "atlas"]
+  "keywords": ["mongodb", "nosql", "document", "aggregation", "sharding", "atlas"],
+  "suggestedPermissions": {
+    "allow": []
+  }
 }
 ```
 

@@ -41,7 +41,10 @@ plugins/ccfg-java/
   },
   "repository": "https://github.com/jsamuelsen11/claude-config",
   "license": "MIT",
-  "keywords": ["java", "kotlin", "spring-boot", "maven", "gradle", "junit"]
+  "keywords": ["java", "kotlin", "spring-boot", "maven", "gradle", "junit"],
+  "suggestedPermissions": {
+    "allow": ["Bash(mvn:*)", "Bash(gradle:*)"]
+  }
 }
 ```
 
