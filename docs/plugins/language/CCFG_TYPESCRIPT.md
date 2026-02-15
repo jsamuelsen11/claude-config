@@ -57,7 +57,16 @@ plugins/ccfg-typescript/
     "node",
     "vitest",
     "playwright"
-  ]
+  ],
+  "suggestedPermissions": {
+    "allow": [
+      "Bash(npx prettier:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)"
+    ]
+  }
 }
 ```
 
