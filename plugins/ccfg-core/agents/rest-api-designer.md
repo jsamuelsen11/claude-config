@@ -528,13 +528,13 @@ duplicate side effects. The client generates a unique key per logical operation.
 
 ```http
 POST /payments HTTP/1.1
-Idempotency-Key: idem_01J8XZ7K3N2P4Q6R
+Idempotency-Key: pay-20240115-checkout-7x9k
 Content-Type: application/json
 
 { "amount_cents": 4999, "currency": "USD", "order_id": "ord_8x2k" }
 
 HTTP/1.1 201 Created
-Idempotency-Key: idem_01J8XZ7K3N2P4Q6R
+Idempotency-Key: pay-20240115-checkout-7x9k
 ```
 
 **On retry** (same key, same payload): server returns the original response with the same status
@@ -548,7 +548,7 @@ HTTP/1.1 409 Conflict
   "type": "https://errors.example.com/idempotency-conflict",
   "title": "Idempotency key reused with different request body",
   "status": 409,
-  "detail": "Key idem_01J8XZ7K3N2P4Q6R was previously used with a different payload."
+  "detail": "Key pay-20240115-checkout-7x9k was previously used with a different payload."
 }
 ```
 
@@ -1167,6 +1167,21 @@ Common REST API design mistakes to avoid:
 - [ ] Rate limiting applied per client/key, not globally, to prevent one tenant starving others
 - [ ] Idempotency keys validated for format and length; not accepted unbounded
 - [ ] Error messages do not leak internal implementation details, stack traces, or query structure
+
+## Choosing the Right API Design Agent
+
+This agent covers REST API design. For other API paradigms, delegate to the appropriate sibling:
+
+| Problem Space        | Agent                            | When to Use                                                               |
+| -------------------- | -------------------------------- | ------------------------------------------------------------------------- |
+| REST / HTTP APIs     | `rest-api-designer` (this agent) | Resource-oriented APIs, public APIs, OpenAPI specs, CRUD over HTTP        |
+| GraphQL APIs         | `graphql-api-designer`           | Schema-first APIs, client-driven queries, federated graphs, subscriptions |
+| gRPC / Protobuf      | `grpc-api-designer`              | Internal service-to-service RPC, streaming, low-latency binary protocols  |
+| Event-Driven / Async | `event-driven-api-designer`      | Pub/sub messaging, AsyncAPI specs, saga orchestration, event sourcing     |
+
+If the design involves multiple paradigms (e.g., REST gateway fronting gRPC services, or REST
+endpoints that publish events), start with the agent matching the primary contract being designed
+and reference the others for the secondary concerns.
 
 ## Working with Files
 

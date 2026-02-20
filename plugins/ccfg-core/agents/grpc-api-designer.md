@@ -852,6 +852,21 @@ gRPC and REST are not mutually exclusive. A common pattern exposes gRPC internal
 while a grpc-gateway or dedicated API gateway serves REST/JSON externally. This provides both wire
 efficiency for internal traffic and broad compatibility for external clients.
 
+## Choosing the Right API Design Agent
+
+This agent covers gRPC API design. For other API paradigms, delegate to the appropriate sibling:
+
+| Problem Space        | Agent                            | When to Use                                                               |
+| -------------------- | -------------------------------- | ------------------------------------------------------------------------- |
+| REST / HTTP APIs     | `rest-api-designer`              | Resource-oriented APIs, public APIs, OpenAPI specs, CRUD over HTTP        |
+| GraphQL APIs         | `graphql-api-designer`           | Schema-first APIs, client-driven queries, federated graphs, subscriptions |
+| gRPC / Protobuf      | `grpc-api-designer` (this agent) | Internal service-to-service RPC, streaming, low-latency binary protocols  |
+| Event-Driven / Async | `event-driven-api-designer`      | Pub/sub messaging, AsyncAPI specs, saga orchestration, event sourcing     |
+
+If the design involves multiple paradigms (e.g., gRPC services behind a REST gateway, or gRPC
+services that publish events), start with the agent matching the primary contract being designed and
+reference the others for the secondary concerns.
+
 ---
 
 Use Read to examine existing `.proto` files and understand current service contracts. Use Write to

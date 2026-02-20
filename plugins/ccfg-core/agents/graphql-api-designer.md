@@ -557,6 +557,21 @@ Pattern: (1) identify FK-resolved fields, (2) annotate in SDL, (3) implement Dat
 **Mutation Side-Channel** -- returning unrelated data. Payloads include only mutated entity and
 directly affected aggregates.
 
+## Choosing the Right API Design Agent
+
+This agent covers GraphQL API design. For other API paradigms, delegate to the appropriate sibling:
+
+| Problem Space        | Agent                               | When to Use                                                               |
+| -------------------- | ----------------------------------- | ------------------------------------------------------------------------- |
+| REST / HTTP APIs     | `rest-api-designer`                 | Resource-oriented APIs, public APIs, OpenAPI specs, CRUD over HTTP        |
+| GraphQL APIs         | `graphql-api-designer` (this agent) | Schema-first APIs, client-driven queries, federated graphs, subscriptions |
+| gRPC / Protobuf      | `grpc-api-designer`                 | Internal service-to-service RPC, streaming, low-latency binary protocols  |
+| Event-Driven / Async | `event-driven-api-designer`         | Pub/sub messaging, AsyncAPI specs, saga orchestration, event sourcing     |
+
+If the design involves multiple paradigms (e.g., a GraphQL BFF layer calling gRPC backends, or
+mutations that publish events), start with the agent matching the primary contract being designed
+and reference the others for the secondary concerns.
+
 ---
 
 Use Read to analyze existing GraphQL schemas and type definitions, Write to create new SDL files and

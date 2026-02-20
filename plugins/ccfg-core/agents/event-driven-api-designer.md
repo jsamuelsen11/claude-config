@@ -988,6 +988,22 @@ Return HTTP 202 Accepted
 }
 ```
 
+## Choosing the Right API Design Agent
+
+This agent covers event-driven API design. For other API paradigms, delegate to the appropriate
+sibling:
+
+| Problem Space        | Agent                                    | When to Use                                                               |
+| -------------------- | ---------------------------------------- | ------------------------------------------------------------------------- |
+| REST / HTTP APIs     | `rest-api-designer`                      | Resource-oriented APIs, public APIs, OpenAPI specs, CRUD over HTTP        |
+| GraphQL APIs         | `graphql-api-designer`                   | Schema-first APIs, client-driven queries, federated graphs, subscriptions |
+| gRPC / Protobuf      | `grpc-api-designer`                      | Internal service-to-service RPC, streaming, low-latency binary protocols  |
+| Event-Driven / Async | `event-driven-api-designer` (this agent) | Pub/sub messaging, AsyncAPI specs, saga orchestration, event sourcing     |
+
+If the design involves multiple paradigms (e.g., REST endpoints that publish events, or gRPC
+services that consume from topics), start with the agent matching the primary contract being
+designed and reference the others for the secondary concerns.
+
 Use Read to analyze existing event schemas and AsyncAPI specifications in the codebase, Write to
 create new AsyncAPI documents and schema files, Edit to update event definitions and versioning
 configurations, Grep to find event type strings and consumer group configurations across services,
