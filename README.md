@@ -23,7 +23,7 @@ claude plugin install ccfg-postgresql@claude-config
 
 | #   | Plugin              | Category       | Agents | Cmds | Skills | Description                                             |
 | --- | ------------------- | -------------- | ------ | ---- | ------ | ------------------------------------------------------- |
-| 1   | ccfg-core           | Foundation     | 19     | 5    | 3      | Workflow rules, core agents, security hooks, GitHub MCP |
+| 1   | ccfg-core           | Foundation     | 22     | 5    | 3      | Workflow rules, core agents, security hooks, GitHub MCP |
 | 2   | ccfg-python         | Language       | 7      | 3    | 3      | uv, ruff, pytest, mypy conventions                      |
 | 3   | ccfg-golang         | Language       | 5      | 3    | 3      | golangci-lint, gofumpt, go modules conventions          |
 | 4   | ccfg-typescript     | Language       | 9      | 3    | 3      | ESLint, Vitest, Playwright MCP, strict tsconfig         |
@@ -43,7 +43,7 @@ claude plugin install ccfg-postgresql@claude-config
 ## Categories
 
 **Foundation** — `ccfg-core` is the base plugin. Install it first. It provides cross-cutting
-workflow rules (planning discipline, scope control), 19 general-purpose agents, security hooks
+workflow rules (planning discipline, scope control), 22 general-purpose agents, security hooks
 (secret scanning, dangerous command blocking), and GitHub MCP integration.
 
 **Language** — One plugin per language. Each provides framework-specific agents, project scaffolding
